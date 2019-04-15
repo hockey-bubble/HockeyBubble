@@ -186,6 +186,33 @@
             font-size: 50px;
         }
         
+        
+        #in{
+            background-color: dimgray;
+            border-color: dimgray;
+            border-left-color: black;
+            float: right;
+            
+        }
+        
+        #out{
+            float:right;
+            background-color: dimgray;
+            border-color: dimgray;
+            border-right-color: black;
+        }
+        
+        #tastma{
+            background-color: #bfbfbf;
+            border-color: #bfbfbf;
+            border-radius: 2px;
+        }
+        
+        #ligma{
+            font-family: sans-serif;
+        }
+        
+        
         /* Navbar container */
         .navbar {
           overflow: hidden;
@@ -258,23 +285,17 @@
           display: block;
         }
         
-        .avatar {
-            vertical-align: middle;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-        }
-        
     
     </style>
     
     <body bgcolor="#999999">
-        <button onclick="signin()">Sign in</button>
-        <button onclick="signout()">Sign out</button>
+        <button onclick="signin()" id="in">Sign in</button>
+        <button onclick="signout()" id="out">Sign out</button>
+        <br>
         <div class="navbar">
             <a><img src="NHL-Logo.png" height="45"></a>
             <a href="#home">Home</a>
-            <a href="#news">News</a>
+            <a href="https://www.nhl.com/en">News</a>
             <div class="dropdown">
                 <button class="dropbtn">Dropdown 
                     <i class="fa fa-caret-down"></i>
@@ -319,7 +340,7 @@
             <p id="ligma">Talk Hockey:</p>
             <textarea id="twit" type="text" name="thetweet" cols="100" rows="4"></textarea>
         </form> 
-        <button type="button" onclick="tweet()">Submit</button>
+        <button type="button" onclick="tweet()" id="tastma">Submit</button>
     
         <br><input id="inputFileToLoad" type="file" onchange="encodeImageFileAsURL();" />
         <div id="imgTest" style="display:none;"></div>
