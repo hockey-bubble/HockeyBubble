@@ -91,7 +91,7 @@
                     var time = date.toString();
                     if (data[u][t].img != "") {
                         mytab = mytab + "<td><img src='" + users[u].profile_picture + "' width='100px'></td>";
-                        mytab = mytab + "<td style='color:white'>" + users[u].username + "</td>";
+                        mytab = mytab + "<td>" + users[u].username + "</td>";
                         mytab = mytab + "<td>" + data[u][t].tweet + "</td>";
                         mytab = mytab + "<td>" + time + "<br><img src='" + data[u][t].img + "' width='300px'></td>";
                     } else {
@@ -115,12 +115,18 @@
         // write tweets to firebase
         function tweet() {
             
+            
             var twitdoc = document.getElementById("twit");
             var twitimg = document.getElementById("imgTest");
             var nameValue = twitdoc.value;
             var imgValue = twitimg.innerHTML;
             var js_time = Date.now();
-            var tweetid = firebase.database().ref('tweets/' + userId + "/").push({tweet: nameValue, time: js_time, img: imgValue});
+            var tweetid = firebase.database().ref('tweets/' + userId + "/").push({tweet: nameValue, time: js_time, img: imgValue}).catch(function(error) {
+                alert("Error - Unacceptable Language");
+            });
+                
+                
+                
             twitdoc.value = "";
             writeUserData(userId, name, email, imageUrl);
             console.log("tweet written")
