@@ -5,44 +5,8 @@
 
     <script src="common.js"></script>
     
-<<<<<<< HEAD
-    <script>  
-        
-        var slideIndex = 1;
-showSlides(slideIndex);
-
-// Next/previous controls
-function plusSlides(n) {
-  showSlides(slideIndex += n);
-}
-
-// Thumbnail image controls
-function currentSlide(n) {
-  showSlides(slideIndex = n);
-}
-
-function showSlides(n) {
-  var i;
-  var slides = document.getElementsByClassName("mySlides");
-  var dots = document.getElementsByClassName("dot");
-  if (n > slides.length) {slideIndex = 1} 
-  if (n < 1) {slideIndex = slides.length}
-  for (i = 0; i < slides.length; i++) {
-      slides[i].style.display = "none"; 
-  }
-  for (i = 0; i < dots.length; i++) {
-      dots[i].className = dots[i].className.replace(" active", "");
-  }
-  slides[slideIndex-1].style.display = "block"; 
-  dots[slideIndex-1].className += " active";
-}
-
-    </script>
-=======
->>>>>>> d1d1947d1b7f3d1585dbb54896b8d2764edc50ed
 
     <style>
-        
         tr:hover {background-color: #888888;}
         th, td {
             border-bottom: 1px solid #111111;
@@ -153,10 +117,11 @@ function showSlides(n) {
         .dropdown:hover .dropdown-content {
           display: block;
         }
+        
     
     </style>
     
-    <body bgcolor="#bfbfbf">
+    <body bgcolor="#999999">
         <button onclick="signin()" id="in">Sign in</button>
         <button onclick="signout()" id="out">Sign out</button>
         <br>
