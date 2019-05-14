@@ -88,7 +88,8 @@
                 for (var t in data[u]) {
                     mytab = mytab + "<tr>";
                     var date = new Date(data[u][t].time);
-                    var time = date.toString();
+                    var time = date.toDateString();
+                    console.log(time);
                     if (data[u][t].img != "") {
                         mytab = mytab + "<td><img src='" + users[u].profile_picture + "' width='100px'></td>";
                         mytab = mytab + "<td>" + users[u].username + "</td>";
