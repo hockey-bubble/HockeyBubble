@@ -122,7 +122,8 @@
             var nameValue = twitdoc.value;
             var imgValue = twitimg.innerHTML;
             var js_time = Date.now();
-            var tweetid = firebase.database().ref('tweets/' + userId + "/").push({tweet: nameValue, time: js_time, img: imgValue}).catch(function(error) {
+            var teamPage = team;
+            var tweetid = firebase.database().ref('tweets/' + userId + "/").push({tweet: nameValue, time: js_time,team: teamPage, img: imgValue}).catch(function(error) {
                 alert("Error - Unacceptable Language");
             });
                 
