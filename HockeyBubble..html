@@ -13,9 +13,6 @@
     
 
     <style>
-        tr:hover {background-color: #888888;}
-        th, td {
-        }
         
         
         #sugma{
@@ -36,11 +33,23 @@
         #mytweets{
             font-family: serif;
             border: 5px solid;
+            border-style:groove;
             width: 575px;
             text-align: center;
-            
+            border-color: black;
+            border-radius: 20px;
+            background-color:slategray;
+            text-align: center;
         }
         
+        #twit{
+            border-radius: 20px;
+            border: 5px solid;
+            border-color: black;
+            padding: 20px; 
+            width: 600px;
+            height: 150; 
+        }
         
         #out{
             float:right;
@@ -185,19 +194,20 @@
             </div>
         </div>
         <h1 id="sugma"> Hockey Bubble</h1>
+        <center>
         <form>
             <p id="ligma">Talk Hockey:</p>
-            <textarea id="twit" type="text" name="thetweet" cols="100" rows="4"></textarea>
+           <textarea id="twit" type="text" name="thetweet" cols="100" rows="4"></textarea>
         </form> 
         <button type="button" onclick="tweet()" id="tastma">Submit</button>
     
         <br><input id="inputFileToLoad" type="file" onchange="encodeImageFileAsURL();" />
         <div id="imgTest" style="display:none;"></div>
         
-   <center><div id="mytweets"></div></center> 
+   <div id="mytweets"></div> 
     <div id="mydata"></div>
     <div id="myphoto"></div>
-        
+        </center>
         
         
         
