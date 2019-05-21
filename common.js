@@ -91,13 +91,11 @@
                     var time = date.toDateString();
                     console.log(time);
                     if (data[u][t].img != "") {
-                        mytab = mytab + "<td><img src='" + users[u].profile_picture + "' width='100px'></td>";
-                        mytab = mytab + "<td>" + users[u].username + "</td>";
+                        mytab = mytab + "<td><img src='" + users[u].profile_picture + "' width='100px'><br>"  + users[u].username + "</td>";
                         mytab = mytab + "<td>" + data[u][t].tweet + "</td>";
                         mytab = mytab + "<td>" + time + "<br><img src='" + data[u][t].img + "' width='300px'></td>";
                     } else {
-                        mytab = mytab + "<td><img src='" + users[u].profile_picture + "' width='100px'></td>";
-                        mytab = mytab + "<td>" + users[u].username + "</td>";
+                        mytab = mytab + "<td><img src='" + users[u].profile_picture + "' width='100px'><br>"  + users[u].username + "</td>";
                         mytab = mytab + "<td>" + data[u][t].tweet + "</td>";
                         mytab = mytab + "<td>" + time + "</td>";
                         
@@ -106,6 +104,7 @@
                     mytab = mytab + "</tr>";
                 }   
             }
+            
             //mylist = mylist + "</ul>";
             mytab = mytab + "</table>"
             var mytdiv = document.getElementById("mytweets");
