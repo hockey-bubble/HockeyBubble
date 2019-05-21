@@ -11,9 +11,25 @@
     </script>
 
     <style>
-        tr:hover {background-color: #888888;}
-        th, td {
-            border-bottom: 1px solid #111111;
+      #mytweets{
+            font-family: sans-serif;
+            border: 5px solid;
+            border-style:groove;
+            width: 700px;
+            text-align: center;
+            border-color: black;
+            border-radius: 20px;
+            background-color:slategray;
+            text-align: center;
+        }
+        
+        #twit{
+            border-radius: 20px;
+            border: 5px solid;
+            border-color: black;
+            padding: 20px; 
+            width: 600px;
+            height: 150; 
         }
         
         
@@ -173,18 +189,20 @@
             </div>
         </div>
         <h1 id="sugma"> Buffalo Sabres</h1>
+        <center>
         <form>
             <p id="ligma">Talk Hockey:</p>
-            <textarea id="twit" type="text" name="thetweet" cols="100" rows="4"></textarea>
+           <textarea id="twit" type="text" name="thetweet" cols="100" rows="4"></textarea>
         </form> 
         <button type="button" onclick="tweet()" id="tastma">Submit</button>
     
         <br><input id="inputFileToLoad" type="file" onchange="encodeImageFileAsURL();" />
         <div id="imgTest" style="display:none;"></div>
         
-    <div id="mytweets"></div>
-    <div id="mydata"></div>
-    <div id="myphoto"></div>
+        <div id="mytweets"></div> 
+        <div id="mydata"></div>
+        <div id="myphoto"></div>
+        </center>
         
         
         
