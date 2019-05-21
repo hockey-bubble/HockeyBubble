@@ -86,6 +86,7 @@
             
             for (var u in data) {
                 for (var t in data[u]) {
+                    if (team == data[u][t].team){
                     mytab = mytab + "<tr>";
                     var date = new Date(data[u][t].time);
                     var time = date.toDateString();
@@ -103,6 +104,7 @@
                         
                     } 
                     mytab = mytab + "</tr>";
+                    }
                 }   
             }
             
