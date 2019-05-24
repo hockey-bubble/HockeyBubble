@@ -8,7 +8,7 @@
     
     <script>
         
-        var team = "null";
+        var team = "nope";
         // Initialize Firebase
        var config = {
             apiKey: "AIzaSyDKdxfHSJAf6ZzPr1T_ELJxWIb-YTFGzNM",
@@ -98,7 +98,7 @@
             for (var u in data) {
                 for (var t in data[u]) {
                     if (u == userId) {
-                        if (team != help){
+                        if (data[u][t].team != help){
                             mytab = mytab + "<tr>";
                             var date = new Date(data[u][t].time);
                             var time = date.toDateString();
