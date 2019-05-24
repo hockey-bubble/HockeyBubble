@@ -7,6 +7,8 @@
     
     
     <script>
+        
+        var team = "null";
         // Initialize Firebase
        var config = {
             apiKey: "AIzaSyDKdxfHSJAf6ZzPr1T_ELJxWIb-YTFGzNM",
@@ -103,11 +105,11 @@
                     if (data[u][t].img != "") {
                         mytab = mytab + "<td><img class='profilepic' src='" + users[u].profile_picture + "' width='70px'><br>"  + users[u].username + "</td>";
                         mytab = mytab + "<td width='400px'>" + data[u][t].tweet + "</td>";
-                        mytab = mytab + "<td>" + time + "<br><img src='" + data[u][t].img + "' width='300px'></td>";
+                        mytab = mytab + "<td>" + time + "<br>" + "Location: " + data[u][t].team + "<br><img src='" + data[u][t].img + "' width='300px'></td>";
                     } else {
                         mytab = mytab + "<td><img class='profilepic' src='" + users[u].profile_picture + "' width='70px'><br>"  + users[u].username + "</td>";
                         mytab = mytab + "<td width='400px'>" + data[u][t].tweet + "</td>";
-                        mytab = mytab + "<td>" + time + team +"</td>";
+                        mytab = mytab + "<td>" + time + "<br>" + "Location: " + data[u][t].team +"</td>";
                         
                         
                     } 
@@ -373,17 +375,8 @@
             <a id="button2" href="https://www.google.ca/">Help</a>
             <a id="button3" href="https://hockey-bubble.github.io/HockeyBubble/About.html">About Us</a>
         </div>
-        <h1 id="sugma"> Hockey Bubble</h1>
+        <h1 id="sugma"> Your Posts</h1>
         <center>
-        <form>
-            <p id="ligma">Talk Hockey:</p>
-           <textarea id="twit" type="text" name="thetweet" cols="100" rows="4"></textarea>
-        </form> 
-        <button type="button" onclick="tweet()" id="tastma">Submit</button>
-    
-        <br><input id="inputFileToLoad" type="file" onchange="encodeImageFileAsURL();" />
-        <div id="imgTest" style="display:none;"></div>
-        
         <div id="mytweets"></div> 
         <div id="mydata" style=font-family:sans-serif;></div>
         <div id="myphoto"></div>
