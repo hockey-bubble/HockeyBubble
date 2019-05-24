@@ -1,0 +1,430 @@
+<html>
+
+    <script src="https://www.gstatic.com/firebasejs/5.9.3/firebase.js"></script>
+    
+    
+    <script>
+        var team = "help";
+        
+        // Initialize Firebase
+       var config = {
+            apiKey: "AIzaSyDKdxfHSJAf6ZzPr1T_ELJxWIb-YTFGzNM",
+            authDomain: "test-c7da1.firebaseapp.com",
+            databaseURL: "https://test-c7da1.firebaseio.com",
+            projectId: "test-c7da1",
+            storageBucket: "test-c7da1.appspot.com",
+            messagingSenderId: "550969625752"
+        };
+        firebase.initializeApp(config);
+                
+        // Check to see if you are logged in
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user == null) {
+                alert("Not logged in.");
+                return;
+            } else {
+                userId = user.uid;
+                name = user.displayName;
+                imageUrl = user.photoURL;
+                email = user.email;
+                    
+                // write user data to users
+                //writeUserData(userId, name, email, imageUrl);
+                
+                // write data to document
+                mydiv = document.getElementById("mydata");
+                mydiv.innerHTML = name
+                myphotodiv = document.getElementById("myphoto");
+                myphotodiv.innerHTML = "<img src='" + imageUrl + "'/>";
+
+                firebase.database().ref('/tweets').once('value').then(function(snapshot) {
+                    var data = (snapshot.val());
+                    if (data == null) {
+                      console.log("No data found at /tweets/" + userId);  
+                    } else {
+                        
+                      firebase.database().ref('/users').once('value').then(function(snapshot) { 
+                        var userdata = (snapshot.val());
+                        if (userdata != null) {
+                           dataarray = [data,userdata]
+                           console.log(dataarray)
+                           updatetweets(dataarray); 
+                        }
+                      });
+                      //console.log(data)
+                      //updatetweets(data);
+                    }
+                });
+            } // end user null check
+        }); // end check auth state
+        
+        function encodeImageFileAsURL() {
+
+            var filesSelected = document.getElementById("inputFileToLoad").files;
+            if (filesSelected.length > 0) {
+                var fileToLoad = filesSelected[0];
+                var fileReader = new FileReader();
+                fileReader.onload = function(fileLoadedEvent) {
+                    var srcData = fileLoadedEvent.target.result; // <--- data: base64
+                    //var newImage = document.createElement('img');
+                    //newImage.src = srcData;
+                    //document.getElementById("imgTest").innerHTML = newImage.outerHTML;
+                    document.getElementById("imgTest").innerHTML = srcData;
+                    //console.log("Converted Base64 version is: " + document.getElementById("imgTest").innerHTML);
+                    console.log(srcData);
+                }
+                fileReader.readAsDataURL(fileToLoad);
+            }
+        } // end function
+        
+        // write user data
+        function writeUserData(userId, name, email, imageUrl) {
+            firebase.database().ref('users/' + userId).set({
+                username: name,
+                email: email,
+                profile_picture : imageUrl
+            });
+        }
+        
+        function updatetweets(data) {
+            //var mylist = "<ul>";
+            var mytab = "<table>";
+            users = data[1]; // put on top, because changed data - not good coding change later
+            data = data[0];
+            
+            for (var u in data) {
+                for (var t in data[u]) {
+                    if (userId == "9zQbFPkZ78Mh8xci2iWSSq3XSk63" || userId == "1eA0oW8fmoN3s3UPCdhR6sKHhHh1") {
+                        if (team == data[u][t].team){
+                            mytab = mytab + "<tr>";
+                            var date = new Date(data[u][t].time);
+                            var time = date.toDateString();
+                            console.log(time);
+                            if (data[u][t].img != "") {
+                                mytab = mytab + "<td><img class='profilepic' src='" + users[u].profile_picture + "' width='70px'><br>"  + users[u].username + "</td>";
+                                mytab = mytab + "<td width='400px'>" + data[u][t].tweet + "</td>";
+                                mytab = mytab + "<td>" + time + "<br><img src='" + data[u][t].img + "' width='300px'></td>";
+                            } else {
+                                mytab = mytab + "<td><img class='profilepic' src='" + users[u].profile_picture + "' width='70px'><br>"  + users[u].username + "</td>";
+                                mytab = mytab + "<td width='400px'>" + data[u][t].tweet + "</td>";
+
+                                mytab = mytab + "<td>" + time + "</td>"; 
+
+                            } 
+                                mytab = mytab + "</tr>";
+                        }
+                    } else if(u == userId) {
+                        if (team == data[u][t].team){
+                            mytab = mytab + "<tr>";
+                            var date = new Date(data[u][t].time);
+                            var time = date.toDateString();
+                            console.log(time);
+                            if (data[u][t].img != "") {
+                                mytab = mytab + "<td><img class='profilepic' src='" + users[u].profile_picture + "' width='70px'><br>"  + users[u].username + "</td>";
+                                mytab = mytab + "<td width='400px'>" + data[u][t].tweet + "</td>";
+                                mytab = mytab + "<td>" + time + "<br><img src='" + data[u][t].img + "' width='300px'></td>";
+                            } else {
+                                mytab = mytab + "<td><img class='profilepic' src='" + users[u].profile_picture + "' width='70px'><br>"  + users[u].username + "</td>";
+                                mytab = mytab + "<td width='400px'>" + data[u][t].tweet + "</td>";
+
+                                mytab = mytab + "<td>" + time + "</td>";
+
+
+                            } 
+                            mytab = mytab + "</tr>";
+                        }
+                    }
+                }   
+            }
+            
+            //mylist = mylist + "</ul>";
+            mytab = mytab + "</table>"
+            var mytdiv = document.getElementById("mytweets");
+            //mytdiv.innerHTML = mylist;
+            mytdiv.innerHTML = mytab;
+        }
+        
+        // write tweets to firebase
+        function tweet() {
+            
+            
+            var twitdoc = document.getElementById("twit");
+            var twitimg = document.getElementById("imgTest");
+            var nameValue = twitdoc.value;
+            var imgValue = twitimg.innerHTML;
+            var js_time = Date.now();
+            var teamPage = team;
+            var tweetid = firebase.database().ref('tweets/' + userId + "/").push({tweet: nameValue, time: js_time,team: teamPage, img: imgValue}).catch(function(error) {
+                alert("Error - Unacceptable Language");
+            });
+                
+                
+                
+            twitdoc.value = "";
+            writeUserData(userId, name, email, imageUrl);
+            console.log("tweet written")
+            
+            firebase.database().ref('/tweets').once('value').then(function(snapshot) {
+                    var data = (snapshot.val());
+                    if (data == null) {
+                      console.log("No data found at /tweets/" + userId);  
+                    } else { 
+                        firebase.database().ref('/users').once('value').then(function(snapshot) { 
+                        var userdata = (snapshot.val());
+                        if (userdata != null) {
+                           dataarray = [data,userdata]
+                           console.log(dataarray)
+                           updatetweets(dataarray); 
+                        }
+                      });
+                    }
+                });
+            
+            
+            // The unique key stored in tweetid is based on a timestamp, so list items will automatically be ordered chronologically. Because Firebase generates a unique key for each tweet, no write conflicts will occur if multiple users add a post at the same time. https://firebase.google.com/docs/database/admin/save-data
+            
+        }
+        
+        function signin() {
+            console.log("Signing in");
+            var provider = new firebase.auth.GoogleAuthProvider();
+            firebase.auth().signInWithRedirect(provider).then(function(result) { 
+                window.location.replace("fbtest.html");
+            });
+        }
+        
+        function signout() {
+            console.log("Signing out");
+            firebase.auth().signOut().then(function() {
+            });
+        }
+        
+        
+    </script>
+    
+
+    <style>
+
+        
+        #sugma{
+            text-align: center;
+            font-family: sans-serif;
+            font-size: 50px;
+        }
+        
+        
+        #in{
+            background-color: dimgray;
+            border-color: dimgray;
+            border-left-color: black;
+            float: right;
+            
+        }
+        
+        .profilepic {
+            border-radius:50%;
+        }
+        
+        #mytweets{
+            font-family: sans-serif;
+            border: 5px solid;
+            border-style:groove;
+            width: 700px;
+            text-align: center;
+            border-color: black;
+            border-radius: 20px;
+            background-color:slategray;
+            text-align: center;
+        }
+        
+        #twit{
+            border-radius: 20px;
+            border: 5px solid;
+            border-color: black;
+            padding: 20px; 
+            width: 600px;
+            height: 150; 
+        }
+        
+        #out{
+            float:right;
+            background-color: dimgray;
+            border-color: dimgray;
+            border-right-color: black;
+        }
+        
+        #tastma{
+            background-color: dodgerblue;
+            border-color: dodgerblue;
+            border-radius: 10px;
+            margin: 5px;
+        }
+        
+        #ligma{
+            font-family: sans-serif;
+            padding: 4px;
+        }
+        
+        
+        /* Navbar container */
+        .navbar {
+          overflow: hidden;
+          background-color: #333;
+          font-family: Arial;
+        }
+
+        /* Links inside the navbar */
+        .navbar a {
+          float: left;
+          font-size: 40px;
+          color: white;
+          text-align: center;
+          padding: 14px 16px;
+          text-decoration: none;
+        }
+
+        /* The dropdown container */
+        .dropdown {
+          float: left;
+          overflow: hidden;
+        }
+
+        /* Dropdown button */
+        .dropdown .dropbtn {
+          font-size: 40px; 
+          border: none;
+          outline: none;
+          color: white;
+          padding: 14px 16px;
+          background-color: inherit;
+          font-family: inherit; /* Important for vertical align on mobile phones */
+          margin: 0; /* Important for vertical align on mobile phones */
+        }
+
+        /* Add a red background color to navbar links on hover */
+        .navbar a:hover, .dropdown:hover .dropbtn {
+          background-color: red;
+        }
+
+        /* Dropdown content (hidden by default) */
+        .dropdown-content {
+            display: none;
+            
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        /* Links inside the dropdown */
+        .dropdown-content a {
+            float: none;
+            font-size: 15px;
+            color: black;
+            padding: 8px 10px;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+        }
+
+        /* Add a grey background color to dropdown links on hover */
+        .dropdown-content a:hover {
+          background-color: #ddd;
+        }
+
+        /* Show the dropdown menu on hover */
+        .dropdown:hover .dropdown-content {
+          display: block;
+        }
+        
+        #info{
+            font-family: sans-serif;
+            
+        }
+        
+        #nut{
+            width: 500px;
+        }
+        
+        
+    
+    </style>
+    
+    <body bgcolor="#999999">
+        <button onclick="signin()" id="in">Sign in</button>
+        <button onclick="signout()" id="out">Sign out</button>
+        <br>
+        <div class="navbar">
+            <a><img src="NHL-Logo.png" height="45"></a>
+            <a href="https://hockey-bubble.github.io/HockeyBubble/HockeyBubble..html">Home</a>
+            <a href="https://www.nhl.com/en">News</a>
+            <div class="dropdown">
+                <button class="dropbtn">Dropdown 
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content">
+                    <a href="https://hockey-bubble.github.io/HockeyBubble/AnahiemDucks.html">Anahiem Ducks</a>
+                    <a href="https://hockey-bubble.github.io/HockeyBubble/ArizonaCoyotes.html">Arizona Coyotes</a>
+                    <a href="https://hockey-bubble.github.io/HockeyBubble/BostonBruins.html">Boston Bruins</a>
+                    <a href="https://hockey-bubble.github.io/HockeyBubble/BuffaloSabres.html">Buffalo Sabres</a>
+                    <a href="https://hockey-bubble.github.io/HockeyBubble/CalgaryFlames.html">Calgary Flames</a>
+                    <a href="https://hockey-bubble.github.io/HockeyBubble/CarolinaHurricanes.html">Carolina Hurricanes</a>
+                    <a href="https://hockey-bubble.github.io/HockeyBubble/ChicagoBlacks.html">Chicago Blackhawkes</a>
+                    <a href="https://hockey-bubble.github.io/HockeyBubble/ColoradoAvs.html">Coloroda Avalanche</a>
+                    <a href="https://hockey-bubble.github.io/HockeyBubble/ColumbusBJ.html">Columbus Blue Jackets</a>
+                    <a href="https://hockey-bubble.github.io/HockeyBubble/DallasStars.html">Dallas Stars</a>
+                    <a href="https://hockey-bubble.github.io/HockeyBubble/DetroitWings.html">Detriot Red Wings</a>
+                    <a href="https://hockey-bubble.github.io/HockeyBubble/EdmontonOillers.html">Edmonton Oilers</a>
+                    <a href="https://hockey-bubble.github.io/HockeyBubble/FloridaPanthers.html">Florida Panthers</a>
+                    <a href="https://hockey-bubble.github.io/HockeyBubble/LAKings.html">LA Kings</a>
+                    <a href="https://hockey-bubble.github.io/HockeyBubble/MinnesotaWild.html">Minnesota Wild</a>
+                    <a href="https://hockey-bubble.github.io/HockeyBubble/Habs.html">Montreal Canadiens</a>
+                    <a href="https://hockey-bubble.github.io/HockeyBubble/NashvillePredators.html">Nashville Predators</a>
+                    <a href="https://hockey-bubble.github.io/HockeyBubble/NJDevils.html">New Jersey Devils</a>
+                    <a href="https://hockey-bubble.github.io/HockeyBubble/NYIslanders.html">New York Islanders</a>
+                    <a href="https://hockey-bubble.github.io/HockeyBubble/NYRangers.html">New York Rangers</a>
+                    <a href="https://hockey-bubble.github.io/HockeyBubble/OttawaSenators.html">Ottawa Senators</a>
+                    <a href="https://hockey-bubble.github.io/HockeyBubble/PhiladelphiaFlyers.html">Philadelphia Flyers</a>
+                    <a href="https://hockey-bubble.github.io/HockeyBubble/PittsburghPens.html">Pittsburgh Penguins</a>
+                    <a href="https://hockey-bubble.github.io/HockeyBubble/SanJoseSharks.html">San Jose Sharks</a>
+                    <a href="https://hockey-bubble.github.io/HockeyBubble/StLouisBlues.html">St. Louis Blues</a>
+                    <a href="https://hockey-bubble.github.io/HockeyBubble/TampaBay.html">Tampa Bay Lightning</a>
+                    <a href="https://hockey-bubble.github.io/HockeyBubble/TorontoMapleLeafs.html">Toronto Maple Leafs</a>
+                    <a href="https://hockey-bubble.github.io/HockeyBubble/VancouverCannucks.html">Vancouver Canucks</a>
+                    <a href="https://hockey-bubble.github.io/HockeyBubble/VegasGK.html">Vegas Golden Knights</a>
+                    <a href="https://hockey-bubble.github.io/HockeyBubble/WashingtonCaps.html">Washington Capitals</a>
+                    <a href="https://hockey-bubble.github.io/HockeyBubble/WinnipegJets.html">Winnipeg Jets</a>
+                </div>
+            </div>
+            <a id="button1" href="https://www.google.ca/">Profile</a>
+            <a id="button2" href="https://www.google.ca/">Help</a>
+            <a id="button3" href="https://hockey-bubble.github.io/HockeyBubble/About.html">About Us</a>
+        </div>
+        <h1 id="sugma"> Help Center</h1>
+        <center>
+        <form>
+            <p id="ligma">Question or Complaint:</p>
+           <textarea id="twit" type="text" name="thetweet" cols="100" rows="4"></textarea>
+            <div id="nut">
+                <p id="info"> All questions will be answered by one of our websites hardworking admins. A solution to your question will be sent to your registered email. Check back within 24 hours for a response.</p>
+            </div>
+        </form> 
+        <button type="button" onclick="tweet()" id="tastma">Submit</button>
+    
+        
+        <div id="mytweets"></div> 
+        <div id="mydata" style=font-family:sans-serif;></div>
+        <div id="myphoto"></div>
+        </center>
+        
+        
+        
+        
+        
+    </body>
+
+    
+
+    
+</html>
