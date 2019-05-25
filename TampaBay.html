@@ -11,9 +11,29 @@
     </script>
 
     <style>
-        tr:hover {background-color: #888888;}
-        th, td {
-            border-bottom: 1px solid #111111;
+     .profilepic {
+            border-radius:50%;
+        }
+        
+        #mytweets{
+            font-family: sans-serif;
+            border: 5px solid;
+            border-style:groove;
+            width: 700px;
+            text-align: center;
+            border-color: black;
+            border-radius: 20px;
+            background-color:slategray;
+            text-align: center;
+        }
+        
+        #twit{
+            border-radius: 20px;
+            border: 5px solid;
+            border-color: black;
+            padding: 20px; 
+            width: 600px;
+            height: 150; 
         }
         
         
@@ -125,7 +145,7 @@
     
     </style>
     
-    <body bgcolor="#0033cc">
+    <body bgcolor="#002868">
         <button onclick="signin()" id="in">Sign in</button>
         <button onclick="signout()" id="out">Sign out</button>
         <br>
@@ -176,7 +196,8 @@
             <a id="button3" href="https://hockey-bubble.github.io/HockeyBubble/About.html">About Us</a>
         </div>
         <h1 id="sugma"> Tampa Bay Lightning</h1>
-        <form>
+        <center> 
+            <form>
             <p id="ligma">Talk Hockey:</p>
             <textarea id="twit" type="text" name="thetweet" cols="100" rows="4"></textarea>
         </form> 
@@ -188,6 +209,8 @@
     <div id="mytweets"></div>
     <div id="mydata"></div>
     <div id="myphoto"></div>
+        </center>
+       
         
         
         
