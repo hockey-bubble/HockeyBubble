@@ -11,9 +11,29 @@
     </script>
 
     <style>
-        tr:hover {background-color: #888888;}
-        th, td {
-            border-bottom: 1px solid #111111;
+        .profilepic {
+            border-radius:50%;
+        }
+        
+        #mytweets{
+            font-family: sans-serif;
+            border: 5px solid;
+            border-style:groove;
+            width: 700px;
+            text-align: center;
+            border-color: black;
+            border-radius: 20px;
+            background-color:slategray;
+            text-align: center;
+        }
+        
+        #twit{
+            border-radius: 20px;
+            border: 5px solid;
+            border-color: black;
+            padding: 20px; 
+            width: 600px;
+            height: 150; 
         }
         
         
@@ -53,7 +73,7 @@
         /* Navbar container */
         .navbar {
           overflow: hidden;
-          background-color: #333;
+          background-color: #FF4C00;
           font-family: Arial;
         }
 
@@ -125,12 +145,12 @@
     
     </style>
     
-    <body bgcolor="#e68a00">
+    <body bgcolor="#041E42">
         <button onclick="signin()" id="in">Sign in</button>
         <button onclick="signout()" id="out">Sign out</button>
         <br>
         <div class="navbar">
-            <a><img src="Oilers.png" height="45"></a>
+            <a><img src="edmonton-oilers-logo.png" height="45"></a>
             <a href="https://hockey-bubble.github.io/HockeyBubble/HockeyBubble..html">Home</a>
             <a href="https://www.nhl.com/oilers">News</a>
             <div class="dropdown">
@@ -176,6 +196,7 @@
             <a id="button3" href="https://hockey-bubble.github.io/HockeyBubble/About.html">About Us</a>
         </div>
         <h1 id="sugma"> Edmonton Oilers</h1>
+        <center>
         <form>
             <p id="ligma">Talk Hockey:</p>
             <textarea id="twit" type="text" name="thetweet" cols="100" rows="4"></textarea>
@@ -189,7 +210,7 @@
     <div id="mydata"></div>
     <div id="myphoto"></div>
         
-        
+        </center>
         
         
     </body>
